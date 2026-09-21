@@ -67,11 +67,17 @@ for repo in "${CLONE_REPOS[@]}"; do
     fi
 done
 
-echo "==> [5/6] Symlinking .zshrc..."
+echo "==> [5/6] Symlinking .zshrc and a python -> python3 shim..."
 if [ -f "$HOME/.zshrc" ] && [ ! -L "$HOME/.zshrc" ]; then
     mv "$HOME/.zshrc" "$HOME/.zshrc.backup.$(date +%s)"
 fi
 ln -sf "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
+
+# macOS ships no bare `python`, only `python3`. A real symlink beats a zsh
+# alias here: it also resolves in scripts and other non-interactive shells.
+# ~/.local/bin leads PATH, set in .zshrc section 2.
+mkdir -p "$HOME/.local/bin"
+ln -sf "$(brew --prefix)/bin/python3" "$HOME/.local/bin/python"
 
 echo "==> [6/6] Configuring Terminal.app and default shell..."
 osascript -e 'tell application "Terminal" to set font name of current settings of selected tab of front window to "MesloLGS-NF-Regular"' 2>/dev/null || true
