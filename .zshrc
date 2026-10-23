@@ -77,6 +77,9 @@ alias dot="cd ~/dotfiles"
 alias reload="exec zsh -l"
 alias zshconfig="code ~/.zshrc || nano ~/.zshrc"
 
+# AI Tools
+alias cl="claude"
+
 # Network & macOS Helpers
 alias myip="curl -s https://ipinfo.io/ip"
 alias ports="lsof -iTCP -sTCP:LISTEN -n -P"
